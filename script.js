@@ -5,13 +5,14 @@ function ToyCar(modelName, carBrand, carColor, carScale, carType, carMeterial, c
     this.carColor = carColor;
     this.carScale = carScale;
     this.carType = carType;
-    this.carMeterial = carMaterial;
+    this.carMeterial = carMeterial;
     this.carWeight = carWeight;
     this.carLength = carLength;
     this.manufactureYear = manufactureYear;
     this.carPrice = carPrice;
     this.available = true; //default value.
-    this.toggleAvailability = function(){
+    
+    this.toggleAvailability = function() {
         this.available = !this.available;
     };
 
@@ -21,7 +22,7 @@ function ToyCar(modelName, carBrand, carColor, carScale, carType, carMeterial, c
 const toyCar = [];
 
 //DOM references.
-const carForm = document.getElementById("carFrom");
+const carForm = document.getElementById("carForm");
 const carList = document.getElementById("carList");
 
 //add new car using form.
@@ -50,3 +51,32 @@ displayCar();
 //reset form
 carForm.reset();
 });
+
+//car display 
+function displayCar() {
+    carList.innerHTML = "";
+
+    toyCar.forEach((car, i) => {
+        const card = document.createElement("div");
+        card.className = "car-card";
+        card.innerHTML = `
+            <h3>${car.modelName}</h3>
+            <p>Brand: ${car.carBrand}</p>
+            <p>Scale: ${car.carScale}</p>
+            <p>Color: ${car.carColor}</p>
+            <p>Price: $${car.carPrice.toFixed(2)}</p>
+            <p>Meterial: ${car.carMeterial}</p>
+            <p>Length: ${car.carLength}</p>
+            <p>Year: ${car.manufactureYear}</p>
+            <p>Weight: ${car.carWeight}</p>
+            <p>Status: ${car.available ? "Available" : "Sold Out"}</p>
+            <button onclick="toggleStatus(${i})">Toggle Status</button>
+        `;
+        carList.appendChild(card);
+    });
+}
+
+function toggleStatus(index) {
+    toyCar[index].toggleAvailability();
+    displayCar();
+}
